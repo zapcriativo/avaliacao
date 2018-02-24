@@ -1,0 +1,51 @@
+﻿        <nav class="menuheader">
+            <div class="ui container">
+        <label for="drop" class="toggle">Menu</label>
+        <input type="checkbox" id="drop" />
+            <ul class="menu">
+
+        @foreach (DomainProduct.Entities.Category category in Model)
+        {
+            <li>
+                @if (category.Level.Length == 2) {
+                    @* <label for="drop-@category.IdCategory" class="toggle">@category.Name</label> *@
+                    <a href="~/category/index/@category.IdCategory">@category.Name 
+                        @if (category.ChildCategories != null && category.ChildCategories.Any())
+                        {
+                            <i class="dropdown icon"></i>
+                        }
+                    </a>
+                    @* <input type="checkbox" id="drop-@category.IdCategory"/> *@
+                    <ul>
+                        @if (category.ChildCategories != null && category.ChildCategories.Any())
+                        {
+                            foreach (DomainProduct.Entities.Category subCategoryLevel1 in category.ChildCategories)
+                            {
+                                <li>
+                                    @* <label for="drop-@subCategoryLevel1.IdCategory" class="toggle">@subCategoryLevel1.Name</label> *@
+                                    <a href="@subCategoryLevel1.UrlFriendly">@subCategoryLevel1.Name</a>
+                                    @* <input type="checkbox" id="drop-@subCategoryLevel1.IdCategory"/> *@
+
+                                    @if (subCategoryLevel1.ChildCategories != null && subCategoryLevel1.ChildCategories.Any())
+                                    {
+                                        <ul>
+                                        @foreach (var subCategoryLevel2 in subCategoryLevel1.ChildCategories)
+                                        {
+                                        <li><a class="item" href="@subCategoryLevel2.UrlFriendly">@subCategoryLevel2.Name</a></li>
+                                        }
+                                        </ul>
+                                    }
+                                </li>
+                            }
+                        }
+                    </ul> 
+                } else {
+                    <a href="~/category/index/@category.IdCategory">@category.Name</a>
+                }
+            </li>
+        }
+
+                
+            </ul>
+        </div>  
+        </nav>
